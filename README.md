@@ -52,7 +52,7 @@ wsl --set-default-version 2
 - 安装完成后，**启动 Docker Desktop**（首次启动需等待后台服务初始化）
 
 ### 步骤 3：验证安装  
-打开终端（PowerShell 或 Command Prompt），运行：  
+打开终端 PowerShell 运行：  
 ```bash  
 docker -v  # 输出 Docker 版本信息（如 Docker version 4.38.0）  
 docker run hello-world  # 运行测试容器，验证是否正常工作  
@@ -83,7 +83,7 @@ docker run hello-world  # 运行测试容器，验证是否正常工作
 
 ## 2. 可视化管理工具镜像  
 ### （1）Portainer CE（推荐）  
-**描述**：功能全面的 Docker 可视化管理工具，支持集群管理、权限控制和日志监控
+**描述**：功能全面的 Docker 可视化管理工具，支持集群管理、权限控制和日志监控  
 **镜像名**：`portainer/portainer-ce:latest`  
 **运行命令**：  
 ```bash  
@@ -102,7 +102,7 @@ docker run -d --name portainer-manager -p 9000:9000 -v /var/run/docker.sock:/var
 ![portainer](https://raw.githubusercontent.com/jarocheng0123/Docker-Desktop/refs/heads/main/PNG/portainer.png)
 
 ### （2）Dpanel  
-**描述**：轻量级工具，适合快速上手，界面简洁但功能较基础。  
+**描述**：轻量级工具，适合快速上手，界面简洁但功能较基础    
 **镜像名**：`donknap/dpanel:latest`  
 **运行命令**：  
 ```bash  
@@ -120,7 +120,7 @@ docker run -d --name dpanel-server -p 8080:8080 -v /var/run/docker.sock:/var/run
 ![donknap](https://raw.githubusercontent.com/jarocheng0123/Docker-Desktop/refs/heads/main/PNG/dpanel.png)
 
 ## 3. 带图形界面的容器镜像（VNC 访问）  
-**场景**：需要在容器内运行桌面环境（如 Ubuntu GUI），通过 VNC 或浏览器远程访问
+**场景**：需要在容器内运行桌面环境（如 Ubuntu GUI），通过 VNC 或浏览器远程访问  
 **推荐镜像**：`dorowu/ubuntu-desktop-lxde-vnc:latest`  
 **运行命令**：  
 ```bash  
@@ -136,12 +136,13 @@ docker run -itd --name ubuntu-gui -p 6080:80 -p 5900:5900 dorowu/ubuntu-desktop-
 ```  
 
 ```bash  
-docker run -itd   --name ubuntu-gui  -v E:/VM:/shared   -p 6080:80   -p 5900:5900   dorowu/ubuntu-desktop-lxde-vnc
+docker run -itd --name ubuntu-gui -v E:/VM:/shared -p 6080:80 -p 5900:5900 dorowu/ubuntu-desktop-lxde-vnc
 ```  
 
 **访问方式**：  
 - **浏览器访问**：打开 `http://localhost:6080`，输入密码 `vncpassword` 进入桌面
-- **VNC 客户端访问**：使用 VNC 工具（如 RealVNC）连接 `localhost:5900`，密码同上
+- **VNC 客户端访问**：使用 VNC 工具（如 RealVNC）连接 `localhost:5900`，密码同上  
+
 **说明**：  
 - 容器内预装 LXDE 桌面环境，支持文件管理器、终端等图形化操作。  
 - 挂载的 Windows 路径建议使用 **正斜杠**（如 `E:/VM`）或双反斜杠（`E:\\VM`），避免转义问题。  
@@ -150,7 +151,7 @@ docker run -itd   --name ubuntu-gui  -v E:/VM:/shared   -p 6080:80   -p 5900:590
 
 ## 4. 基础操作系统镜像  
 ### Ubuntu 官方镜像  
-**描述**：最常用的 Linux 基础镜像，适用于开发、测试和构建自定义镜像
+**描述**：最常用的 Linux 基础镜像，适用于开发、测试和构建自定义镜像   
 **镜像名**：`ubuntu:latest`（推荐指定具体版本，如 `ubuntu:22.04`）  
 **运行命令**：  
 ```bash  
