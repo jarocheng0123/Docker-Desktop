@@ -39,7 +39,7 @@ wsl -v  # 确保输出版本为 2（WSL 2）
 ```powershell  
 wsl --set-default-version 2  
 ```  
-
+[适用于 x64 计算机的 WSL2 Linux 内核更新包](https://wslstorestorage.blob.core.windows.net/wslblob/wsl_update_x64.msi) 
 
 ## 三、安装 Docker Desktop  
 ### 步骤 1：下载安装包  
