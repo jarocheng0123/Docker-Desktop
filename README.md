@@ -11,35 +11,33 @@
 - **虚拟化**：需在 BIOS/UEFI 中启用 **Intel VT-x/AMD-V**
 
 ### 软件依赖  
-- **WSL 2**：需安装 **WSL 2 功能**，版本要求 **1.1.3.0 或更高**
 - **Windows 虚拟机监控程序平台**：用于支持 Docker 的虚拟化后端
+- **WSL 2**：需安装 **WSL 2 功能**，版本要求 **1.1.3.0 或更高**
 
 
 ## 二、启用 WSL 2 和虚拟化功能  
-### 方法 1：通过命令行快速启用（推荐）  
-以 **管理员身份** 打开 PowerShell，运行以下命令：  
-```powershell  
-# 启用 WSL 2 和虚拟机平台功能  
-wsl --install  
-```  
-- 该命令会自动安装 WSL 2、Linux 内核更新，并启用相关功能，**重启电脑** 后生效
-
-### 方法 2：手动启用（适用于系统限制场景）  
+### 方法 1：手动启用（适用于系统限制场景）  
 1. 打开 **控制面板** > **程序** > **启用或关闭 Windows 功能**
 2. 勾选以下选项：  
-   - **适用于 Linux 的 Windows 子系统**  
    - **Windows 虚拟机监控程序平台**  
+   - **适用于 Linux 的 Windows 子系统**  
 3. 点击 **确定**，等待安装完成后 **重启电脑**
 
 ### 验证 WSL 版本  
 ```powershell  
 wsl -v  # 确保输出版本为 2（WSL 2）  
 ```  
-若版本为 1，可通过以下命令升级（需先备份数据）：  
+若版本为 1，可通过以下命令升级或安装[WSL2 Linux 内核更新包](https://wslstorestorage.blob.core.windows.net/wslblob/wsl_update_x64.msi) 
 ```powershell  
 wsl --set-default-version 2  
 ```  
-[适用于 x64 计算机的 WSL2 Linux 内核更新包](https://wslstorestorage.blob.core.windows.net/wslblob/wsl_update_x64.msi) 
+
+### 方法 2：通过命令行快速启用  
+以 **管理员身份** 打开 PowerShell，运行以下命令：  
+```powershell  
+wsl --install  # 启用 WSL 2 和虚拟机平台功能  
+```  
+- 该命令会自动安装 WSL 2、Linux 内核更新，并启用相关功能，**重启电脑** 后生效
 
 ## 三、安装 Docker Desktop  
 ### 步骤 1：下载安装包  
@@ -51,30 +49,18 @@ wsl --set-default-version 2
 - 保持默认设置即可（默认安装路径：`C:\Program Files\Docker\Docker Desktop`）
 - 安装完成后，**启动 Docker Desktop**（首次启动需等待后台服务初始化）
 
-### 步骤 3：验证安装  
+### 步骤 3：汉化 Docker Desktop 
+ - 从 [DockerDesktop-CN 仓库](https://github.com/asxez/DockerDesktop-CN) 下载对应版本的 `.asar` 文件（文件名格式如 `app-Windows-x86-v2beta.asar`）
+ - 备份原文件：`C:\Program Files\Docker\Docker\frontend\resources\app.asar`
+ - 将下载的 `.asar` 文件重命名为 `app.asar`，覆盖原路径文件。
+
+### 步骤 4：验证安装  
 打开终端 PowerShell 运行：  
 ```bash  
-docker -v  # 输出 Docker 版本信息（如 Docker version 4.38.0）  
+docker -v  # 输出 Docker 版本信息
 docker run hello-world  # 运行测试容器，验证是否正常工作  
 ```  
 若显示 `Hello from Docker!`，则安装成功
-
-
-## 四、汉化 Docker Desktop（可选）  
-### 方法：使用汉化包替换语言文件  
-1. **下载汉化包**：  
-   从 [DockerDesktop-CN 仓库](https://github.com/asxez/DockerDesktop-CN) 下载对应版本的 `.asar` 文件（文件名格式如 `app-Windows-x86-v2beta.asar`）
-   - **注意**：Windows Arm 用户需使用 [汉化脚本](https://github.com/asxez/DDCS)，仓库不提供 Arm 架构的汉化包
-
-2. **替换文件**：  
-   - 关闭 Docker Desktop。  
-   - 备份原文件：`C:\Program Files\Docker\Docker\frontend\resources\app.asar`
-   - 将下载的 `.asar` 文件重命名为 `app.asar`，覆盖原路径文件。  
-
-3. **重启 Docker Desktop**，界面将显示中文
-### 注意事项  
-- 请确保汉化包版本与 Docker Desktop 版本一致
-- 若替换后出现异常，恢复备份的 `app.asar` 文件即可
 
 
 # 二、推荐镜像与使用示例  
@@ -147,7 +133,6 @@ docker run -itd --name ubuntu-gui -v E:/VM:/shared -p 6080:80 -p 5900:5900 dorow
 - 容器内预装 LXDE 桌面环境，支持文件管理器、终端等图形化操作。  
 - 挂载的 Windows 路径建议使用 **正斜杠**（如 `E:/VM`）或双反斜杠（`E:\\VM`），避免转义问题。  
 ![dorowu-web](https://raw.githubusercontent.com/jarocheng0123/Docker-Desktop/refs/heads/main/PNG/web-localhost-6080.png)
-![dorowu-vnc](https://raw.githubusercontent.com/jarocheng0123/Docker-Desktop/refs/heads/main/PNG/vnc-127.0.0.1-5900.png)
 
 ## 4. 基础操作系统镜像  
 ### Ubuntu 官方镜像  
@@ -170,113 +155,80 @@ docker run -it --name ubuntu-container ubuntu:latest bash
 
 # 三、Docker 基本指令与操作指南  
 
+### **一、镜像管理**
+```bash
+# 查看镜像
+docker images               # 列出所有本地镜像
+docker images -a            # 显示所有镜像（含中间层）
+docker images -q            # 只显示镜像ID（用于批量操作）
 
-## 1. 镜像管理  
-### 查看本地镜像  
-```bash  
-docker images  # 列出所有本地镜像（包含 REPOSITORY、TAG、IMAGE ID 等信息）  
-docker images -a  # 显示所有镜像（包括中间层镜像）  
-docker images -q  # 只显示镜像 ID（用于批量操作）  
-```  
+# 拉取/删除镜像
+docker pull [镜像名:标签]     # 拉取镜像（例：ubuntu:22.04）
+docker rmi -f [镜像ID/名称]  # 强制删除镜像（-f：忽略依赖）
+docker rmi -f $(docker images -q)  # 清空所有镜像（慎用！）
 
-### 拉取与删除镜像  
-```bash  
-docker pull ubuntu:22.04  # 从 Docker Hub 拉取指定版本的 Ubuntu 镜像  
-docker rmi ubuntu:22.04  # 删除指定镜像（需确保无容器依赖）  
-docker rmi $(docker images -q)  # 删除所有本地镜像（慎用！）  
-```  
+# 构建镜像
+docker build -t [名称:标签] .  # 构建镜像（当前目录的Dockerfile）
+docker build -f [文件路径] .   # 指定Dockerfile路径
+```
 
-### 构建自定义镜像  
-```bash  
-docker build -t myapp:v1 .  # 在当前目录（.）下根据 Dockerfile 构建名为 myapp:v1 的镜像  
-docker build -t myapp:v1 -f ./docker/Dockerfile.prod .  # 指定 Dockerfile 路径  
-```  
+### **二、容器操作**
+```bash
+# 查看容器
+docker ps               # 查看运行中的容器
+docker ps -a            # 查看所有容器（含已停止）
+docker ps -aq           # 只显示容器ID
+docker ps -f "status=exited"  # 筛选已退出的容器
 
-## 2. 容器操作  
-### 查看容器状态  
-```bash  
-docker ps  # 查看运行中的容器  
-docker ps -a  # 查看所有容器（包括已停止的）  
-docker ps -aq  # 只显示容器 ID（用于批量操作）  
-docker ps -f "status=exited"  # 筛选已退出的容器  
-```  
+# 容器生命周期
+docker run -d -p [主机端口]:[容器端口] --name [名称] [镜像]  # 创建并启动容器
+docker start/stop/restart [容器名/ID]  # 启动/停止/重启容器
+docker kill [容器名/ID]      # 强制终止容器
+docker rm -f [容器名/ID]     # 强制删除容器
+docker rm -f $(docker ps -aq)  # 清空所有容器（慎用！）
 
-### 容器生命周期管理  
-```bash  
-# 创建并启动容器（以 ubuntu-gui 镜像为例）  
-docker run -d --name ubuntu-gui -p 6080:80 dorowu/ubuntu-desktop-lxde-vnc:latest  
+# 进入容器
+docker exec -it [容器名] bash  # 交互式终端进入容器（有bash时）
+docker exec -it [容器名] sh    # 无bash时使用sh
+docker attach [容器名]         # 附加到主进程（退出会停止容器）
+```
 
-# 启动/停止/重启容器  
-docker start ubuntu-gui  # 启动已停止的容器  
-docker stop ubuntu-gui   # 优雅停止容器（发送 SIGTERM 信号）  
-docker restart ubuntu-gui  # 重启容器  
+### **三、容器信息与日志**
+```bash
+# 网络信息
+docker inspect -f '{{range .NetworkSettings.Networks}}{{.IPAddress}}{{end}}' [容器名]  # 获取IP
+docker port [容器名]           # 查看端口映射
 
-# 强制终止容器（相当于 kill -9）  
-docker kill ubuntu-gui  
+# 日志查看
+docker logs [容器名]           # 查看标准输出日志
+docker logs -f [容器名]        # 实时跟踪日志（类似tail -f）
+docker logs --since=1h [容器名]  # 查看最近1小时日志
+```
 
-# 删除容器（需先停止容器，或使用 -f 强制删除）  
-docker rm ubuntu-gui  
-docker rm -f $(docker ps -aq)  # 强制删除所有容器（慎用！）  
-```  
+### **四、数据卷与文件操作**
+```bash
+# 数据卷挂载
+# Windows：
+docker run -d -v "E:/VM":/shared [镜像]
+# Linux/macOS：
+docker run -d -v ~/VM:/shared [镜像]
+# 命名数据卷（推荐）：
+docker run -d -v [卷名]:/app/data [镜像]
 
-### 进入容器内部  
-```bash  
-docker exec -it ubuntu-gui bash  # 进入运行中的容器（交互式终端）  
-docker exec -it ubuntu-gui sh  # 若容器没有 bash，使用 sh  
-docker attach ubuntu-gui  # 附加到容器的主进程（退出会导致容器停止）  
-```  
+# 文件复制
+docker cp [容器名]:/路径/文件 .   # 从容器复制到主机
+docker cp ./文件 [容器名]:/路径/  # 从主机复制到容器
+```
 
-## 3. 容器信息与日志  
-### 获取容器 IP 地址  
-```bash  
-# PowerShell 语法（Windows）  
-$containerIP = docker inspect -f '{{range .NetworkSettings.Networks}}{{.IPAddress}}{{end}}' ubuntu-gui  
-Write-Host "容器 IP：$containerIP"  
-```  
+### **五、系统清理**
+```bash
+# 安全清理（推荐）
+docker system prune           # 清理未使用的镜像、容器、网络
+docker system prune -a        # 清理所有未使用镜像（含未引用的）
+docker system prune --volumes  # 清理未使用的数据卷
 
-### 查看端口映射  
-```bash  
-docker port ubuntu-gui  # 显示容器的端口映射关系（如 0.0.0.0:6080 -> 80/tcp）  
-```  
-
-### 查看容器日志  
-```bash  
-docker logs ubuntu-gui  # 查看容器的标准输出日志  
-docker logs -f ubuntu-gui  # 实时跟踪日志（类似 tail -f）  
-docker logs --since=1h ubuntu-gui  # 查看最近 1 小时的日志  
-```  
-
-## 4. 数据卷与文件操作  
-### 挂载数据卷  
-```bash  
-# 挂载 Windows 本地目录到容器（以 E:/VM 为例）  
-docker run -d -v "E:/VM":/shared --name ubuntu-gui dorowu/ubuntu-desktop-lxde-vnc:latest  
-# 创建命名数据卷（推荐方式）  
-docker run -d -v mydata:/app/data --name myapp myapp:v1  
-```  
-
-### 在容器与主机间复制文件  
-```bash  
-# 从容器复制到主机  
-docker cp ubuntu-gui:/etc/hosts .  # 复制容器内的 hosts 文件到当前目录  
-# 从主机复制到容器  
-docker cp ./config.ini ubuntu-gui:/app/config.ini  
-```  
-
-## 5. 系统资源清理  
-### 安全清理命令（推荐）  
-```bash  
-docker system prune  # 清理未使用的镜像、容器、网络和构建缓存  
-docker system prune -a  # 清理所有未使用的镜像（包括未被引用的）  
-docker system prune --volumes  # 清理未使用的数据卷  
-```  
-
-### 彻底清理（慎用！）  
-```bash  
-# 停止并删除所有容器  
-docker stop $(docker ps -aq) 2>/dev/null && docker rm -f $(docker ps -aq) 2>/dev/null  
-# 删除所有镜像（含未被引用的）  
-docker rmi -f $(docker images -aq) 2>/dev/null  
-# 删除所有数据卷  
-docker volume rm -f $(docker volume ls -q) 2>/dev/null  
-```  
+# 彻底清理（慎用！）
+docker stop $(docker ps -aq) && docker rm -f $(docker ps -aq)  # 停止并删除所有容器
+docker rmi -f $(docker images -aq)                             # 删除所有镜像
+docker volume rm -f $(docker volume ls -q)                    # 删除所有数据卷
+```
