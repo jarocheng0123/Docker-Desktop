@@ -13,31 +13,43 @@
 ### 软件依赖  
 - **Windows 虚拟机监控程序平台**：用于支持 Docker 的虚拟化后端
 - **WSL 2**：需安装 **WSL 2 功能**，版本要求 **1.1.3.0 或更高**
-
+- 如果需要在VMvare虚拟机安装Docker，需要关闭**Hyper-V 功能**并开启**虚拟化 Intel VT-x/EPT 和 AMD-V/RVI(V)**
 
 ## 二、启用 WSL 2 和虚拟化功能  
-### 方法 1：手动启用（适用于系统限制场景）  
+
 1. 打开 **控制面板** > **程序** > **启用或关闭 Windows 功能**
-2. 勾选以下选项：  
+2. 勾选安装以下选项：  
    - **Windows 虚拟机监控程序平台**  
    - **适用于 Linux 的 Windows 子系统**  
-3. 点击 **确定**，等待安装完成后 **重启电脑**
+
+[通过 Microsoft Store 安装](https://apps.microsoft.com/detail/9pdxgncfsczv?hl=zh-cn&gl=US&ocid=pdpshare)
+
+```powershell  
+wsl --install  # 启用 WSL 2 和虚拟机平台功能  
+```  
+```powershell  
+wsl --update
+```  
+```powershell  
+wsl --update --web-download  
+```  
+
+### **重启电脑**
+
+[适用于x64计算机的WSL2 Linux 内核更新包](https://wslstorestorage.blob.core.windows.net/wslblob/wsl_update_x64.msi) 
+
+```powershell  
+wsl --set-default-version 2  #将 WSL 2 设置为默认版本
+``` 
 
 ### 验证 WSL 版本  
 ```powershell  
 wsl -v  # 确保输出版本为 2（WSL 2）  
 ```  
-若版本为 1，可通过以下命令升级或安装[WSL2 Linux 内核更新包](https://wslstorestorage.blob.core.windows.net/wslblob/wsl_update_x64.msi) 
 ```powershell  
-wsl --set-default-version 2  
+wsl -l -v  # 每个发行版的 WSL 版本
 ```  
 
-### 方法 2：通过命令行快速启用  
-以 **管理员身份** 打开 PowerShell，运行以下命令：  
-```powershell  
-wsl --install  # 启用 WSL 2 和虚拟机平台功能  
-```  
-- 该命令会自动安装 WSL 2、Linux 内核更新，并启用相关功能，**重启电脑** 后生效
 
 ## 三、安装 Docker Desktop  
 ### 步骤 1：下载安装包  
@@ -63,12 +75,12 @@ docker run hello-world  # 运行测试容器，验证是否正常工作
 若显示 `Hello from Docker!`，则安装成功
 
 
-# 二、推荐镜像与使用示例  
-## 1. 镜像获取建议  
+## 四、推荐镜像与使用示例  
+### 1. 镜像获取建议  
 推荐从 **[Docker Hub 官方镜像库](https://hub.docker.com/search)** 下载镜像，确保安全性和兼容性  
 
-## 2. 可视化管理工具镜像  
-### （1）Portainer CE（推荐）  
+### 2. 可视化管理工具镜像  
+#### （1）Portainer CE（推荐）  
 **描述**：功能全面的 Docker 可视化管理工具，支持集群管理、权限控制和日志监控  
 **镜像名**：`portainer/portainer-ce:latest`  
 **运行命令**：  
@@ -87,7 +99,7 @@ docker run -d --name portainer-manager -p 9000:9000 -v /var/run/docker.sock:/var
 - 支持本地和远程 Docker 主机连接，适合开发/运维场景。  
 ![portainer](https://raw.githubusercontent.com/jarocheng0123/Docker-Desktop/refs/heads/main/PNG/portainer.png)
 
-### （2）Dpanel  
+#### （2）Dpanel  
 **描述**：轻量级工具，适合快速上手，界面简洁但功能较基础    
 **镜像名**：`donknap/dpanel:latest`  
 **运行命令**：  
@@ -105,7 +117,7 @@ docker run -d --name dpanel-server -p 8080:8080 -v /var/run/docker.sock:/var/run
 **注意**：该项目维护频率较低，适合轻量级临时需求，生产环境建议优先选择 Portainer。  
 ![donknap](https://raw.githubusercontent.com/jarocheng0123/Docker-Desktop/refs/heads/main/PNG/dpanel.png)
 
-## 3. 带图形界面的容器镜像（VNC 访问）  
+### 3. 带图形界面的容器镜像（VNC 访问）  
 **场景**：需要在容器内运行桌面环境（如 Ubuntu GUI），通过 VNC 或浏览器远程访问  
 **推荐镜像**：`dorowu/ubuntu-desktop-lxde-vnc:latest`  
 **运行命令**：  
@@ -134,8 +146,8 @@ docker run -itd --name ubuntu-gui -v E:/VM:/shared -p 6080:80 -p 5900:5900 dorow
 - 挂载的 Windows 路径建议使用 **正斜杠**（如 `E:/VM`）或双反斜杠（`E:\\VM`），避免转义问题。  
 ![dorowu-web](https://raw.githubusercontent.com/jarocheng0123/Docker-Desktop/refs/heads/main/PNG/web-localhost-6080.png)
 
-## 4. 基础操作系统镜像  
-### Ubuntu 官方镜像  
+### 4. 基础操作系统镜像  
+#### Ubuntu 官方镜像  
 **描述**：最常用的 Linux 基础镜像，适用于开发、测试和构建自定义镜像   
 **镜像名**：`ubuntu:latest`（推荐指定具体版本，如 `ubuntu:22.04`）  
 **运行命令**：  
@@ -153,9 +165,9 @@ docker run -it --name ubuntu-container ubuntu:latest bash
 - 作为自定义镜像的基础层（Dockerfile 中使用 `FROM ubuntu`）。  
 
 
-# 三、Docker 基本指令与操作指南  
+## 五、Docker 基本指令与操作指南  
 
-### **一、镜像管理**
+### **1、镜像管理**
 ```bash
 # 查看镜像
 docker images               # 列出所有本地镜像
@@ -172,7 +184,7 @@ docker build -t [名称:标签] .  # 构建镜像（当前目录的Dockerfile）
 docker build -f [文件路径] .   # 指定Dockerfile路径
 ```
 
-### **二、容器操作**
+### **2、容器操作**
 ```bash
 # 查看容器
 docker ps               # 查看运行中的容器
@@ -193,7 +205,7 @@ docker exec -it [容器名] sh    # 无bash时使用sh
 docker attach [容器名]         # 附加到主进程（退出会停止容器）
 ```
 
-### **三、容器信息与日志**
+### **3、容器信息与日志**
 ```bash
 # 网络信息
 docker inspect -f '{{range .NetworkSettings.Networks}}{{.IPAddress}}{{end}}' [容器名]  # 获取IP
@@ -205,7 +217,7 @@ docker logs -f [容器名]        # 实时跟踪日志（类似tail -f）
 docker logs --since=1h [容器名]  # 查看最近1小时日志
 ```
 
-### **四、数据卷与文件操作**
+### **4、数据卷与文件操作**
 ```bash
 # 数据卷挂载
 # Windows：
@@ -220,7 +232,7 @@ docker cp [容器名]:/路径/文件 .   # 从容器复制到主机
 docker cp ./文件 [容器名]:/路径/  # 从主机复制到容器
 ```
 
-### **五、系统清理**
+### **5、系统清理**
 ```bash
 # 安全清理（推荐）
 docker system prune           # 清理未使用的镜像、容器、网络
@@ -232,3 +244,8 @@ docker stop $(docker ps -aq) && docker rm -f $(docker ps -aq)  # 停止并删除
 docker rmi -f $(docker images -aq)                             # 删除所有镜像
 docker volume rm -f $(docker volume ls -q)                    # 删除所有数据卷
 ```
+
+
+## 六、参考链接  
+- [如何使用 WSL 在 Windows 上安装 Linux](https://learn.microsoft.com/zh-cn/windows/wsl/install)
+- [旧版 WSL 的手动安装步骤](https://learn.microsoft.com/zh-cn/windows/wsl/install-manual)
