@@ -10,10 +10,6 @@
 - **内存**：至少 **4GB RAM**  
 - **虚拟化**：需在 BIOS/UEFI 中启用 **Intel VT-x/AMD-V**
 
-### 软件依赖  
-- **Windows 虚拟机监控程序平台**：用于支持 Docker 的虚拟化后端
-- **WSL 2**：需安装 **WSL 2 功能**，版本要求 **1.1.3.0 或更高**
-- 如果需要在VMvare虚拟机安装Docker，需要关闭**Hyper-V 功能**并开启**虚拟化 Intel VT-x/EPT 和 AMD-V/RVI(V)**
 
 ## 二、启用 WSL 2 和虚拟化功能  
 
@@ -21,27 +17,35 @@
 2. 勾选安装以下选项：  
    - **Windows 虚拟机监控程序平台**  
    - **适用于 Linux 的 Windows 子系统**  
+   - **虚拟机平台(VirtualMachinePlatform)**  
 
-[通过 Microsoft Store 安装](https://apps.microsoft.com/detail/9pdxgncfsczv?hl=zh-cn&gl=US&ocid=pdpshare)
+3. 在与VMvare开启 **虚拟化 Intel VT-x/EPT 和 AMD-V/RVI(V)** 功能冲突时
+- 先关闭**Hyper-V**尝试
+- 再关闭**虚拟机平台**尝试
+
+
+### 通过Microsoft Store安装组件
+
+- [111](https://store-images.s-microsoft.com/image/apps.4434.14211694071001531.dbcfd988-d8c4-47dc-b05a-c030e48101e2.85a6081b-fc26-41ba-8561-c804b39bc536?h=170)
+https://store-images.s-microsoft.com/image/apps.61786.14131597032361940.38d2a067-3798-455f-934a-f69935156b3d.eb49d3ac-e311-4e6f-b89b-f1fe8db9d73b?h=170
+
+- [Windows Subsystem for Linux](https://apps.microsoft.com/detail/9P9TQF7MRM4R?hl=zh-cn&gl=CN&ocid=pdpshare)
+- [Ubuntu](https://apps.microsoft.com/detail/9pdxgncfsczv?hl=zh-cn&gl=CN&ocid=pdpshare)
+
+
+## 【重启电脑】
 
 ```powershell  
 wsl --install  # 启用 WSL 2 和虚拟机平台功能  
 ```  
+[适用于x64计算机的WSL2 Linux 内核更新包](https://wslstorestorage.blob.core.windows.net/wslblob/wsl_update_x64.msi) 
 ```powershell  
 wsl --update
 ```  
-```powershell  
-wsl --update --web-download  
-```  
-
-### **重启电脑**
-
-[适用于x64计算机的WSL2 Linux 内核更新包](https://wslstorestorage.blob.core.windows.net/wslblob/wsl_update_x64.msi) 
 
 ```powershell  
 wsl --set-default-version 2  #将 WSL 2 设置为默认版本
-``` 
-
+```
 ### 验证 WSL 版本  
 ```powershell  
 wsl -v  # 确保输出版本为 2（WSL 2）  
@@ -49,6 +53,7 @@ wsl -v  # 确保输出版本为 2（WSL 2）
 ```powershell  
 wsl -l -v  # 每个发行版的 WSL 版本
 ```  
+
 
 
 ## 三、安装 Docker Desktop  
@@ -59,17 +64,25 @@ wsl -l -v  # 每个发行版的 WSL 版本
 ### 步骤 2：运行安装程序  
 双击下载的 `Docker Desktop Installer.exe`，按提示完成安装：  
 - 保持默认设置即可（默认安装路径：`C:\Program Files\Docker\Docker Desktop`）
-- 安装完成后，**启动 Docker Desktop**（首次启动需等待后台服务初始化）
+
 
 ### 步骤 3：汉化 Docker Desktop 
  - 从 [DockerDesktop-CN 仓库](https://github.com/asxez/DockerDesktop-CN) 下载对应版本的 `.asar` 文件（文件名格式如 `app-Windows-x86-v2beta.asar`）
  - 备份原文件：`C:\Program Files\Docker\Docker\frontend\resources\app.asar`
  - 将下载的 `.asar` 文件重命名为 `app.asar`，覆盖原路径文件。
 
+
+## 【重启电脑】
+
 ### 步骤 4：验证安装  
 打开终端 PowerShell 运行：  
 ```bash  
 docker -v  # 输出 Docker 版本信息
+```  
+
+- **启动 Docker Desktop**（首次启动需等待后台服务初始化）
+
+```bash  
 docker run hello-world  # 运行测试容器，验证是否正常工作  
 ```  
 若显示 `Hello from Docker!`，则安装成功
