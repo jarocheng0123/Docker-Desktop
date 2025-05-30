@@ -1,4 +1,4 @@
-# 在 Windows 上安装 Docker Desktop  
+# 在 Windows 上安装 Docker Desktop
 
 ## 一、系统要求  
 ### 操作系统  
@@ -10,152 +10,103 @@
 - **内存**：至少 **4GB RAM**  
 - **虚拟化**：需在 BIOS/UEFI 中启用 **Intel VT-x/AMD-V**
 
-
 ## 二、启用 WSL 2 和虚拟化功能  
-
-1. 打开 **控制面板** > **程序** > **启用或关闭 Windows 功能**
-2. 勾选安装以下选项：  
+### 步骤 1：**启用或关闭 Windows 功能**
+勾选安装以下选项：  
    - **Windows 虚拟机监控程序平台**  
    - **适用于 Linux 的 Windows 子系统**  
    - **虚拟机平台(VirtualMachinePlatform)**  
 
-3. 在与VMvare开启 **虚拟化 Intel VT-x/EPT 和 AMD-V/RVI(V)** 功能冲突时
+### 步骤 2：处理与 VMware 的虚拟化冲突
+如果在与 VMware 开启 **虚拟化 Intel VT-x/EPT 和 AMD-V/RVI(V)** 功能冲突时，可以按以下步骤尝试解决：
 - 先关闭**Hyper-V**尝试
 - 再关闭**虚拟机平台**尝试
 
+### 步骤 3：通过Microsoft Store安装组件
 
-### 通过Microsoft Store安装组件
-
-
-
-
-
-
-<table>
-  <tr>
-  <td style="text-align: center;">
-      <a href="https://apps.microsoft.com/detail/9P9TQF7MRM4R?hl=zh-cn&gl=CN&ocid=pdpshare">
-        <img src="https://raw.githubusercontent.com/jarocheng0123/Docker-Desktop/refs/heads/main/PNG/Windows Subsystem for Linux.png" width="80">
-        <br>
-        <span>Windows Subsystem for Linux</span>
-      </a>
-    </td>
-    <td style="text-align: center;">
-      <a href="https://apps.microsoft.com/detail/9pdxgncfsczv?hl=zh-cn&gl=CN&ocid=pdpshare">
-        <img src="https://raw.githubusercontent.com/jarocheng0123/Docker-Desktop/refs/heads/main/PNG/Ubuntu.png" width="80">
-        <br>
-        <span>Ubuntu</span>
-      </a>
-    </td>
-  </tr>
-</table>
-
-
-
-
-
-
-
+| 图标 | 组件名称 | 描述 |
+| ---- | ---- | ---- |
+| <img src="https://raw.githubusercontent.com/jarocheng0123/Docker-Desktop/refs/heads/main/PNG/Windows Subsystem for Linux.png" width="80"> | [Windows Subsystem for Linux](https://apps.microsoft.com/detail/9P9TQF7MRM4R?hl=zh-cn&gl=CN&ocid=pdpshare) | 用于在 Windows 上运行 Linux 环境 |
+| <img src="https://raw.githubusercontent.com/jarocheng0123/Docker-Desktop/refs/heads/main/PNG/Ubuntu.png" width="80"> | [Ubuntu](https://apps.microsoft.com/detail/9pdxgncfsczv?hl=zh-cn&gl=CN&ocid=pdpshare) | 常用的 Linux 发行版 |
 
 
 ## 【重启电脑】
+<img src="https://raw.githubusercontent.com/jarocheng0123/Docker-Desktop/refs/heads/main/PNG/Windows.png" width="150">
+
+
+`Windows PowerShell(管理员)(A)`终端运行：  
 
 ```powershell  
 wsl --install  # 启用 WSL 2 和虚拟机平台功能  
 ```  
 
-
-
-<table>
-  <tr>
-  <td style="text-align: center;">
-      <a href="https://wslstorestorage.blob.core.windows.net/wslblob/wsl_update_x64.msi">
-        <img src="https://raw.githubusercontent.com/jarocheng0123/Docker-Desktop/refs/heads/main/PNG/wsl_update_x64.png" width="80">
-        <br>
-        <span>适用于x64计算机的WSL2 Linux 内核更新包</span>
-      </a>
-    </td>
-  </tr>
-</table>
-
-
-
-
+安装 [适用于 x64 计算机的 WSL2 Linux 内核更新包](https://wslstorestorage.blob.core.windows.net/wslblob/wsl_update_x64.msi)
 
 ```powershell  
-wsl --update
+wsl --update  # 更新 WSL 内核和组件
 ```  
 
 ```powershell  
 wsl --set-default-version 2  #将 WSL 2 设置为默认版本
 ```
-### 验证 WSL 版本  
+
 ```powershell  
 wsl -v  # 确保输出版本为 2（WSL 2）  
 ```  
+
 ```powershell  
 wsl -l -v  # 每个发行版的 WSL 版本
 ```  
 
 
-
 ## 三、安装 Docker Desktop  
-### 步骤 1：下载安装包  
-
-
+### 步骤 1：[下载Docker Desktop for Windows安装包](https://docs.docker.com/desktop/setup/install/windows-install/)  
 <table>
   <tr>
   <td style="text-align: center;">
       <a href="https://docs.docker.com/desktop/setup/install/windows-install/">
         <img src="https://raw.githubusercontent.com/jarocheng0123/Docker-Desktop/refs/heads/main/PNG/Docker.png" width="80">
         <br>
-        <span>Docker Desktop for Windows</span>
+        <!-- <span>Docker Desktop for Windows</span> -->
       </a>
     </td>
   </tr>
 </table>
 
-
 ### 步骤 2：运行安装程序  
-双击下载的 `Docker Desktop Installer.exe`，按提示完成安装：  
-- 保持默认设置即可（默认安装路径：`C:\Program Files\Docker\Docker Desktop`）
+双击下载的 `Docker Desktop Installer.exe`，按提示完成安装,保持默认设置即可（默认安装路径：`C:\Program Files\Docker\Docker Desktop`）
 
-
-### 步骤 3：汉化 Docker Desktop 
-
+### 步骤 3：[汉化 Docker Desktop](https://github.com/asxez/DockerDesktop-CN) 
 <table>
   <tr>
   <td style="text-align: center;">
       <a href="https://github.com/asxez/DockerDesktop-CN">
         <img src="https://raw.githubusercontent.com/jarocheng0123/Docker-Desktop/refs/heads/main/PNG/DockerDesktop-CN.png" width="80">
         <br>
-        <span>DockerDesktop-CN 仓库</span>
       </a>
     </td>
   </tr>
 </table>
 
-
-
- - 从 [DockerDesktop-CN 仓库](https://github.com/asxez/DockerDesktop-CN) 下载对应版本的 `.asar` 文件（文件名格式如 `app-Windows-x86-v2beta.asar`）
- - 备份原文件：`C:\Program Files\Docker\Docker\frontend\resources\app.asar`
- - 将下载的 `.asar` 文件重命名为 `app.asar`，覆盖原路径文件。
+下载`.asar` 文件重命名为 `app.asar`，替换原文件`C:\Program Files\Docker\Docker\frontend\resources\app.asar`
 
 
 ## 【重启电脑】
+<img src="https://raw.githubusercontent.com/jarocheng0123/Docker-Desktop/refs/heads/main/PNG/Windows.png" width="150">
 
 ### 步骤 4：验证安装  
-打开终端 PowerShell 运行：  
+`Windows PowerShell(管理员)(A)`终端运行： 
+
 ```bash  
 docker -v  # 输出 Docker 版本信息
 ```  
 
-- **启动 Docker Desktop**（首次启动需等待后台服务初始化）
+### 步骤 5：启动 Docker Desktop（首次启动需等待后台服务初始化）
+`Windows PowerShell(管理员)(A)`终端运行：  
 
 ```bash  
 docker run hello-world  # 运行测试容器，验证是否正常工作  
 ```  
-若显示 `Hello from Docker!`，则安装成功
 
 
 ## 四、推荐镜像与使用示例  
@@ -163,6 +114,7 @@ docker run hello-world  # 运行测试容器，验证是否正常工作
 推荐从 **[Docker Hub 官方镜像库](https://hub.docker.com/search)** 下载镜像，确保安全性和兼容性  
 
 ### 2. 可视化管理工具镜像  
+
 #### （1）Portainer CE（推荐）  
 **描述**：功能全面的 Docker 可视化管理工具，支持集群管理、权限控制和日志监控  
 **镜像名**：`portainer/portainer-ce:latest`  
@@ -180,7 +132,8 @@ docker run -d --name portainer-manager -p 9000:9000 -v /var/run/docker.sock:/var
 **使用说明**：  
 - 首次访问需设置管理员密码，后续通过 Web 界面管理 Docker 环境
 - 支持本地和远程 Docker 主机连接，适合开发/运维场景。  
-![portainer](https://raw.githubusercontent.com/jarocheng0123/Docker-Desktop/refs/heads/main/PNG/portainer.png)
+<img src="https://raw.githubusercontent.com/jarocheng0123/Docker-Desktop/refs/heads/main/PNG/portainer.png" width="50%" alt="portainer">
+
 
 #### （2）Dpanel  
 **描述**：轻量级工具，适合快速上手，界面简洁但功能较基础    
@@ -192,13 +145,13 @@ docker run -d --name dpanel-server \
   -v /var/run/docker.sock:/var/run/docker.sock \  # 允许工具调用 Docker API  
   donknap/dpanel:latest  
 ```  
-
 ```bash  
 docker run -d --name dpanel-server -p 8080:8080 -v /var/run/docker.sock:/var/run/docker.sock donknap/dpanel:latest
 ```  
 
-**注意**：该项目维护频率较低，适合轻量级临时需求，生产环境建议优先选择 Portainer。  
-![donknap](https://raw.githubusercontent.com/jarocheng0123/Docker-Desktop/refs/heads/main/PNG/dpanel.png)
+**注意**：该项目维护频率较低，适合轻量级需求。  
+<img src="https://raw.githubusercontent.com/jarocheng0123/Docker-Desktop/refs/heads/main/PNG/dpanel.png" width="50%" alt="donknap">
+
 
 ### 3. 带图形界面的容器镜像（VNC 访问）  
 **场景**：需要在容器内运行桌面环境（如 Ubuntu GUI），通过 VNC 或浏览器远程访问  
@@ -211,23 +164,22 @@ docker run -itd --name ubuntu-gui \
   -v E:/VM:/shared \     # 挂载 Windows 本地目录到容器内的 /shared（注意路径格式）  
   dorowu/ubuntu-desktop-lxde-vnc:latest  
 ```  
-
 ```bash  
 docker run -itd --name ubuntu-gui -p 6080:80 -p 5900:5900 dorowu/ubuntu-desktop-lxde-vnc
 ```  
-
 ```bash  
 docker run -itd --name ubuntu-gui -v E:/VM:/shared -p 6080:80 -p 5900:5900 dorowu/ubuntu-desktop-lxde-vnc
 ```  
 
 **访问方式**：  
 - **浏览器访问**：打开 `http://localhost:6080`，输入密码 `vncpassword` 进入桌面
-- **VNC 客户端访问**：使用 VNC 工具（如 RealVNC）连接 `localhost:5900`，密码同上  
+- **VNC 客户端访问**：使用 VNC 工具（如 RealVNC）连接 `localhost:5900`，密码 `vncpassword`   
 
 **说明**：  
 - 容器内预装 LXDE 桌面环境，支持文件管理器、终端等图形化操作。  
 - 挂载的 Windows 路径建议使用 **正斜杠**（如 `E:/VM`）或双反斜杠（`E:\\VM`），避免转义问题。  
-![dorowu-web](https://raw.githubusercontent.com/jarocheng0123/Docker-Desktop/refs/heads/main/PNG/web-localhost-6080.png)
+<img src="https://raw.githubusercontent.com/jarocheng0123/Docker-Desktop/refs/heads/main/PNG/web-localhost-6080.png" width="50%" alt="dorowu-web">
+
 
 ### 4. 基础操作系统镜像  
 #### Ubuntu 官方镜像  
@@ -238,7 +190,6 @@ docker run -itd --name ubuntu-gui -v E:/VM:/shared -p 6080:80 -p 5900:5900 dorow
 docker run -it --name ubuntu-container \  
   ubuntu:latest bash  # 进入容器内的交互式终端（bash 环境）  
 ```  
-
 ```bash  
 docker run -it --name ubuntu-container ubuntu:latest bash
 ```  
@@ -327,8 +278,3 @@ docker stop $(docker ps -aq) && docker rm -f $(docker ps -aq)  # 停止并删除
 docker rmi -f $(docker images -aq)                             # 删除所有镜像
 docker volume rm -f $(docker volume ls -q)                    # 删除所有数据卷
 ```
-
-
-## 六、参考链接  
-- [如何使用 WSL 在 Windows 上安装 Linux](https://learn.microsoft.com/zh-cn/windows/wsl/install)
-- [旧版 WSL 的手动安装步骤](https://learn.microsoft.com/zh-cn/windows/wsl/install-manual)
