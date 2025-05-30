@@ -26,11 +26,36 @@
 
 ### 通过Microsoft Store安装组件
 
-- [111](https://store-images.s-microsoft.com/image/apps.4434.14211694071001531.dbcfd988-d8c4-47dc-b05a-c030e48101e2.85a6081b-fc26-41ba-8561-c804b39bc536?h=170)
-https://store-images.s-microsoft.com/image/apps.61786.14131597032361940.38d2a067-3798-455f-934a-f69935156b3d.eb49d3ac-e311-4e6f-b89b-f1fe8db9d73b?h=170
 
-- [Windows Subsystem for Linux](https://apps.microsoft.com/detail/9P9TQF7MRM4R?hl=zh-cn&gl=CN&ocid=pdpshare)
-- [Ubuntu](https://apps.microsoft.com/detail/9pdxgncfsczv?hl=zh-cn&gl=CN&ocid=pdpshare)
+
+
+
+
+<table>
+  <tr>
+  <td style="text-align: center;">
+      <a href="https://apps.microsoft.com/detail/9P9TQF7MRM4R?hl=zh-cn&gl=CN&ocid=pdpshare">
+        <img src="https://raw.githubusercontent.com/jarocheng0123/Docker-Desktop/refs/heads/main/PNG/Windows Subsystem for Linux.png" width="80">
+        <br>
+        <span>Windows Subsystem for Linux</span>
+      </a>
+    </td>
+    <td style="text-align: center;">
+      <a href="https://apps.microsoft.com/detail/9pdxgncfsczv?hl=zh-cn&gl=CN&ocid=pdpshare">
+        <img src="https://raw.githubusercontent.com/jarocheng0123/Docker-Desktop/refs/heads/main/PNG/Ubuntu.png" width="80">
+        <br>
+        <span>Ubuntu</span>
+      </a>
+    </td>
+  </tr>
+</table>
+
+
+
+
+
+
+
 
 
 ## 【重启电脑】
@@ -38,7 +63,25 @@ https://store-images.s-microsoft.com/image/apps.61786.14131597032361940.38d2a067
 ```powershell  
 wsl --install  # 启用 WSL 2 和虚拟机平台功能  
 ```  
-[适用于x64计算机的WSL2 Linux 内核更新包](https://wslstorestorage.blob.core.windows.net/wslblob/wsl_update_x64.msi) 
+
+
+
+<table>
+  <tr>
+  <td style="text-align: center;">
+      <a href="https://wslstorestorage.blob.core.windows.net/wslblob/wsl_update_x64.msi">
+        <img src="https://raw.githubusercontent.com/jarocheng0123/Docker-Desktop/refs/heads/main/PNG/wsl_update_x64.png" width="80">
+        <br>
+        <span>适用于x64计算机的WSL2 Linux 内核更新包</span>
+      </a>
+    </td>
+  </tr>
+</table>
+
+
+
+
+
 ```powershell  
 wsl --update
 ```  
@@ -58,8 +101,20 @@ wsl -l -v  # 每个发行版的 WSL 版本
 
 ## 三、安装 Docker Desktop  
 ### 步骤 1：下载安装包  
-从 Docker 官方网站下载对应版本的安装程序：  
-- [Docker Desktop for Windows](https://docs.docker.com/desktop/setup/install/windows-install/)  
+
+
+<table>
+  <tr>
+  <td style="text-align: center;">
+      <a href="https://docs.docker.com/desktop/setup/install/windows-install/">
+        <img src="https://raw.githubusercontent.com/jarocheng0123/Docker-Desktop/refs/heads/main/PNG/Docker.png" width="80">
+        <br>
+        <span>Docker Desktop for Windows</span>
+      </a>
+    </td>
+  </tr>
+</table>
+
 
 ### 步骤 2：运行安装程序  
 双击下载的 `Docker Desktop Installer.exe`，按提示完成安装：  
@@ -67,6 +122,21 @@ wsl -l -v  # 每个发行版的 WSL 版本
 
 
 ### 步骤 3：汉化 Docker Desktop 
+
+<table>
+  <tr>
+  <td style="text-align: center;">
+      <a href="https://github.com/asxez/DockerDesktop-CN">
+        <img src="https://raw.githubusercontent.com/jarocheng0123/Docker-Desktop/refs/heads/main/PNG/DockerDesktop-CN.png" width="80">
+        <br>
+        <span>DockerDesktop-CN 仓库</span>
+      </a>
+    </td>
+  </tr>
+</table>
+
+
+
  - 从 [DockerDesktop-CN 仓库](https://github.com/asxez/DockerDesktop-CN) 下载对应版本的 `.asar` 文件（文件名格式如 `app-Windows-x86-v2beta.asar`）
  - 备份原文件：`C:\Program Files\Docker\Docker\frontend\resources\app.asar`
  - 将下载的 `.asar` 文件重命名为 `app.asar`，覆盖原路径文件。
