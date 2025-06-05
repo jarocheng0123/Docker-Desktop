@@ -17,12 +17,7 @@
    - **适用于 Linux 的 Windows 子系统**  
    - **虚拟机平台(VirtualMachinePlatform)**  
 
-### 步骤 2：处理与 VMware 的虚拟化冲突
-如果在与 VMware 开启 **虚拟化 Intel VT-x/EPT 和 AMD-V/RVI(V)** 功能冲突时，可以按以下步骤尝试解决：
-- 先关闭**Hyper-V**尝试
-- 再关闭**虚拟机平台**尝试
-
-### 步骤 3：通过Microsoft Store安装组件
+### 步骤 2：通过Microsoft Store安装组件
 
 | 图标 | 组件名称 | 描述 |
 | ---- | ---- | ---- |
